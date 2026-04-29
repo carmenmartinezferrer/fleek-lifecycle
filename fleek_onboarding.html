@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fleek — Get Started</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f9f9f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: 900;
+    color: #000;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+
+  .logo-star {
+    color: #f8c642;
+    margin-right: 6px;
+  }
+
+  .step-indicator {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    transition: all 0.3s;
+  }
+
+  .step-dot.active { background: #f8c642; transform: scale(1.3); }
+  .step-dot.done { background: #000; }
+
+  /* MAIN CARD */
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 560px;
+    margin: 40px 16px;
+    border: 1px solid #e8e8e8;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    height: 4px;
+    background: #f0f0f0;
+    width: 100%;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #f8c642;
+    transition: width 0.4s ease;
+  }
+
+  /* STEP CONTENT */
+  .step { display: none; padding: 40px 36px; }
+  .step.active { display: block; }
+
+  .step-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 900;
+    color: #000;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  /* FORM ELEMENTS */
+  .form-group { margin-bottom: 16px; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 6px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1.5px solid #e0e0e0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #000;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  input:focus, select:focus { border-color: #f8c642; }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  /* OPTION CARDS */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .option-card {
+    border: 1.5px solid #e0e0e0;
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+    background: #fff;
+  }
+
+  .option-card:hover { border-color: #f8c642; background: #fffdf0; }
+  .option-card.selected { border-color: #000; background: #000; color: #fff; }
+  .option-card.selected .option-title { color: #f8c642; }
+  .option-card.selected .option-desc { color: #aaa; }
+
+  .option-emoji { font-size: 22px; min-width: 32px; text-align: center; }
+
+  .option-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .option-desc {
+    font-size: 12px;
+    color: #777;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* CATEGORY GRID */
+  .category-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .cat-card {
+    border: 1.5px solid #e0e0e0;
+    padding: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    background: #fff;
+    position: relative;
+  }
+
+  .cat-card:hover { border-color: #f8c642; }
+
+  .cat-card.selected {
+    border-color: #000;
+    background: #f8c642;
+  }
+
+  .cat-card.selected .cat-name { color: #000; }
+
+  .cat-emoji { font-size: 24px; margin-bottom: 6px; display: block; }
+
+  .cat-name {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #000;
+  }
+
+  .cat-check {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .cat-card.selected .cat-check { display: block; }
+
+  /* TOGGLE */
+  .toggle-group {
+    display: flex;
+    gap: 0;
+    border: 1.5px solid #e0e0e0;
+    margin-bottom: 24px;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    padding: 13px;
+    background: #fff;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #999;
+  }
+
+  .toggle-btn:first-child { border-right: 1px solid #e0e0e0; }
+  .toggle-btn.active { background: #000; color: #f8c642; }
+
+  /* YELLOW BANNER */
+  .yellow-banner {
+    background: #f8c642;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .yellow-banner .banner-icon { font-size: 20px; }
+
+  .yellow-banner .banner-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #000;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* BUTTON */
+  .btn-primary {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 24px;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-secondary {
+    width: 100%;
+    background: transparent;
+    color: #000;
+    border: 1.5px solid #000;
+    padding: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { background: #f9f9f9; }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #999;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  .back-link:hover { color: #000; }
+
+  /* SUCCESS SCREEN */
+  .success-icon {
+    width: 60px;
+    height: 60px;
+    background: #f8c642;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+  }
+
+  .email-preview-box {
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    padding: 16px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .email-preview-box .preview-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+  }
+
+  .email-preview-box .preview-subject {
+    font-weight: 700;
+    color: #000;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .email-preview-box .preview-body {
+    font-size: 13px;
+    color: #555;
+    white-space: pre-wrap;
+  }
+
+  /* LOADING */
+  .loading-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px;
+  }
+
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #f0f0f0;
+    border-top-color: #f8c642;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #999;
+  }
+
+  /* STATUS */
+  .status-msg {
+    margin-top: 12px;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    display: none;
+  }
+
+  .status-msg.success {
+    background: #f0fff0;
+    border: 1.5px solid #c3e6c3;
+    color: #2d6a2d;
+    display: block;
+  }
+
+  .status-msg.error {
+    background: #fff0f0;
+    border: 1.5px solid #e6c3c3;
+    color: #6a2d2d;
+    display: block;
+  }
+
+  /* EXPERIMENT BADGE */
+  .experiment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #000;
+    color: #f8c642;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 20px;
+  }
+
+  .hint-text {
+    font-size: 11px;
+    color: #aaa;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* RECIPIENT INPUT */
+  .recipient-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .recipient-row input {
+    flex: 1;
+  }
+
+  .recipient-row button {
+    background: #f8c642;
+    border: none;
+    padding: 13px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .recipient-row button:hover { opacity: 0.85; }
+
+  /* API KEYS */
+  .api-section {
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .api-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 10px;
+  }
+
+  .key-row {
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .key-row input {
+    padding-right: 40px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #555;
+  }
+
+  .key-status {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo"><span class="logo-star">✦</span>FLEEK</div>
+  <div class="step-indicator">
+    <div class="step-dot active" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+    <div class="step-dot" id="dot4"></div>
+    <div class="step-dot" id="dot5"></div>
+  </div>
+</div>
+
+<!-- MAIN CARD -->
+<div class="card">
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:20%"></div>
+  </div>
+
+  <!-- STEP 1: ONBOARDING CHECK -->
+  <div class="step active" id="step1">
+    <div class="step-label">Step 1 of 5</div>
+    <h1>Welcome to Fleek.</h1>
+    <p class="subtitle">The wholesale secondhand fashion marketplace. 44,000+ resellers already flipping.</p>
+
+    <div class="yellow-banner">
+      <span class="banner-icon">⚡</span>
+      <span class="banner-text">New users get £20 off their first order with code APPFIRSTORDER</span>
+    </div>
+
+    <label>Have you completed your onboarding?</label>
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="toggleNo" onclick="selectOnboarding('no')">No — I'm new</button>
+      <button class="toggle-btn" id="toggleYes" onclick="selectOnboarding('yes')">Yes — I'm set up</button>
+    </div>
+
+    <div id="emailSection">
+      <div class="form-group">
+        <label>Your email address</label>
+        <input type="email" id="userEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="userName" placeholder="First name">
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="goToStep(2)">Let's Go →</button>
+    <p class="hint-text">Takes 2 minutes. Your profit journey starts here.</p>
+  </div>
+
+  <!-- STEP 2: COUNTRY -->
+  <div class="step" id="step2">
+    <button class="back-link" onclick="goToStep(1)">← Back</button>
+    <div class="step-label">Step 2 of 5</div>
+    <h1>Where are you based?</h1>
+    <p class="subtitle">We'll show you inventory and pricing that works for your market.</p>
+
+    <div class="options" id="countryOptions">
+      <div class="option-card" onclick="selectCountry('UK')">
+        <span class="option-emoji">🇬🇧</span>
+        <div>
+          <div class="option-title">United Kingdom</div>
+          <div class="option-desc">Vinted, Depop, eBay UK — Jackets, Streetwear, Knitwear trending</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectCountry('FR')">
+        <span class="option-emoji">🇫🇷</span>
+        <div>
+          <div class="option-title">France</div>
+          <div class="option-desc">Vinted FR — Knitwear, Scarves, Vintage trending</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectCountry('DE')">
+        <span class="option-emoji">🇩🇪</span>
+        <div>
+          <div class="option-title">Germany</div>
+          <div class="option-desc">Vinted DE — Jeans, Jackets, Premium brands trending</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectCountry('US')">
+        <span class="option-emoji">🇺🇸</span>
+        <div>
+          <div class="option-title">United States</div>
+          <div class="option-desc">Depop, eBay US — Vintage Jackets, Streetwear trending</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="step2Btn" onclick="goToStep(3)" disabled>Continue →</button>
+  </div>
+
+  <!-- STEP 3: PLATFORM -->
+  <div class="step" id="step3">
+    <button class="back-link" onclick="goToStep(2)">← Back</button>
+    <div class="step-label">Step 3 of 5</div>
+    <h1>Where do you sell?</h1>
+    <p class="subtitle">We'll match the tone and inventory to your platform.</p>
+
+    <div class="options" id="platformOptions">
+      <div class="option-card" onclick="selectPlatform('Vinted')">
+        <span class="option-emoji">💜</span>
+        <div>
+          <div class="option-title">Vinted</div>
+          <div class="option-desc">Volume game — margins, speed, consistent restocking</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectPlatform('Depop')">
+        <span class="option-emoji">🔴</span>
+        <div>
+          <div class="option-title">Depop</div>
+          <div class="option-desc">Curation and trend — premium pieces, higher margins</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectPlatform('eBay')">
+        <span class="option-emoji">🟡</span>
+        <div>
+          <div class="option-title">eBay</div>
+          <div class="option-desc">Scale and volume — bulk listings, commercial buyers</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectPlatform('Website')">
+        <span class="option-emoji">🌐</span>
+        <div>
+          <div class="option-title">My own website / shop</div>
+          <div class="option-desc">Established retailer — larger orders, wholesale scale</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="step3Btn" onclick="goToStep(4)" disabled>Continue →</button>
+  </div>
+
+  <!-- STEP 4: INTENT + CATEGORIES -->
+  <div class="step" id="step4">
+    <button class="back-link" onclick="goToStep(3)">← Back</button>
+    <div class="step-label">Step 4 of 5</div>
+    <h1>What's your goal?</h1>
+    <p class="subtitle">And pick the categories you want to flip.</p>
+
+    <div class="options" id="intentOptions" style="margin-bottom:24px;">
+      <div class="option-card" onclick="selectIntent('TO_GROW')">
+        <span class="option-emoji">📈</span>
+        <div>
+          <div class="option-title">Grow my business</div>
+          <div class="option-desc">I'm a serious reseller scaling up — I need reliable stock</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectIntent('TO_EARN')">
+        <span class="option-emoji">💰</span>
+        <div>
+          <div class="option-title">Earn extra money</div>
+          <div class="option-desc">Reselling on the side — flexible, low risk</div>
+        </div>
+      </div>
+      <div class="option-card" onclick="selectIntent('TO_EXPLORE')">
+        <span class="option-emoji">👀</span>
+        <div>
+          <div class="option-title">Just exploring</div>
+          <div class="option-desc">Curious about wholesale — want to see what's available</div>
+        </div>
+      </div>
+    </div>
+
+    <label>Pick your categories (select all that apply)</label>
+    <div class="category-grid" id="categoryGrid"></div>
+
+    <button class="btn-primary" id="step4Btn" onclick="goToStep(5)" disabled>✦ Unlock Fleek's Full Potential</button>
+  </div>
+
+  <!-- STEP 5: CONFIRMATION -->
+  <div class="step" id="step5">
+    <button class="back-link" onclick="goToStep(4)">← Back</button>
+
+    <div style="text-align:center; padding: 8px 0 24px;">
+      <div class="success-icon" style="margin:0 auto 20px;">✦</div>
+      <div class="step-label" style="text-align:center;">You're in</div>
+      <h1 style="font-size:22px; margin-bottom:10px;">Your profit journey<br>starts here.</h1>
+      <p class="subtitle" style="text-align:center;">Check your inbox — we've sent you a first look at what's selling in your market right now.</p>
+    </div>
+
+    <div class="yellow-banner" style="justify-content:center; text-align:center; flex-direction:column; gap:6px;">
+      <span class="banner-icon">📬</span>
+      <span class="banner-text">Your email is on its way</span>
+    </div>
+
+    <div class="loading-state" id="loadingState" style="display:none; margin-top:16px;">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loadingText">Getting your first look ready...</div>
+    </div>
+
+    <div class="status-msg" id="statusMsg"></div>
+
+    <input type="hidden" id="recipientEmail">
+    <input type="hidden" id="experimentLabel">
+    <input type="hidden" id="previewSubject">
+    <input type="hidden" id="previewBody">
+    <div id="emailPreviewBox" style="display:none;"></div>
+    <div id="profileSummary" style="display:none;"></div>
+  </div>
+
+</div>
+
+<script>
+  // ── STATE ──────────────────────────────────────────────
+  const state = {
+    onboarded: 'no',
+    country: null,
+    platform: null,
+    intent: null,
+    categories: [],
+    experiment: Math.random() < 0.8 ? 'treatment' : 'holdout',
+    abVariant: Math.random() < 0.5 ? 'A' : 'B',
+  };
+
+  const SUPABASE_URL = 'https://wozjybfddvyqdhvjtvaf.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_xkX6fhh1Gmdx7_EvwTCAlw_5ZwGeCTa';
+  const WORKER_URL = 'https://noisy-bar-2eb1.ccmartinezferrer.workers.dev';
+
+  // Keys handled server-side by Cloudflare Worker
+  const ANTHROPIC_KEY = () => 'worker';
+  const RESEND_KEY = () => 'worker';
+
+  // Categories by country
+  const CATEGORIES = {
+    UK: [
+      { id: 'jackets', name: 'Jackets', emoji: '🧥' },
+      { id: 'streetwear', name: 'Streetwear', emoji: '👟' },
+      { id: 'knitwear', name: 'Knitwear', emoji: '🧶' },
+      { id: 'vintage', name: 'Vintage Dresses', emoji: '👗' },
+      { id: 'denim', name: 'Denim', emoji: '👖' },
+      { id: 'accessories', name: 'Accessories', emoji: '🧣' },
+    ],
+    FR: [
+      { id: 'knitwear', name: 'Knitwear', emoji: '🧶' },
+      { id: 'scarves', name: 'Scarves', emoji: '🧣' },
+      { id: 'jackets', name: 'Jackets', emoji: '🧥' },
+      { id: 'vintage', name: 'Vintage Dresses', emoji: '👗' },
+      { id: 'luxury', name: 'Luxury Brands', emoji: '✨' },
+      { id: 'denim', name: 'Denim', emoji: '👖' },
+    ],
+    DE: [
+      { id: 'denim', name: 'Jeans & Denim', emoji: '👖' },
+      { id: 'jackets', name: 'Jackets', emoji: '🧥' },
+      { id: 'streetwear', name: 'Streetwear', emoji: '👟' },
+      { id: 'knitwear', name: 'Knitwear', emoji: '🧶' },
+      { id: 'premium', name: 'Premium Brands', emoji: '⭐' },
+      { id: 'vintage', name: 'Vintage', emoji: '👗' },
+    ],
+    US: [
+      { id: 'jackets', name: 'Vintage Jackets', emoji: '🧥' },
+      { id: 'streetwear', name: 'Streetwear', emoji: '👟' },
+      { id: 'vintage', name: 'Vintage Dresses', emoji: '👗' },
+      { id: 'denim', name: 'Denim', emoji: '👖' },
+      { id: 'premium', name: 'Premium Brands', emoji: '⭐' },
+      { id: 'accessories', name: 'Accessories', emoji: '🧣' },
+    ],
+  };
+
+  // ── STEP NAVIGATION ────────────────────────────────────
+  let currentStep = 1;
+
+  function goToStep(n) {
+    document.getElementById(`step${currentStep}`).classList.remove('active');
+    document.getElementById(`step${n}`).classList.add('active');
+    currentStep = n;
+
+    // Progress
+    const pct = (n / 5) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+
+    // Dots
+    for (let i = 1; i <= 5; i++) {
+      const dot = document.getElementById(`dot${i}`);
+      dot.className = 'step-dot';
+      if (i < n) dot.classList.add('done');
+      else if (i === n) dot.classList.add('active');
+    }
+
+    // Step-specific setup
+    if (n === 4) buildCategoryGrid();
+    if (n === 5) {
+      buildProfileSummary();
+      // Auto-send email to the address entered in step 1
+      const emailInput = document.getElementById('userEmail');
+      const recipientEl = document.getElementById('recipientEmail');
+      if (emailInput && recipientEl) recipientEl.value = emailInput.value;
+      setTimeout(generateAndSend, 600);
+    }
+  }
+
+  // ── STEP 1 ─────────────────────────────────────────────
+  function selectOnboarding(val) {
+    state.onboarded = val;
+    document.getElementById('toggleNo').className = 'toggle-btn' + (val === 'no' ? ' active' : '');
+    document.getElementById('toggleYes').className = 'toggle-btn' + (val === 'yes' ? ' active' : '');
+  }
+
+  // ── STEP 2 ─────────────────────────────────────────────
+  function selectCountry(c) {
+    state.country = c;
+    state.categories = [];
+    document.querySelectorAll('#countryOptions .option-card').forEach(el => el.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    document.getElementById('step2Btn').disabled = false;
+  }
+
+  // ── STEP 3 ─────────────────────────────────────────────
+  function selectPlatform(p) {
+    state.platform = p;
+    document.querySelectorAll('#platformOptions .option-card').forEach(el => el.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    document.getElementById('step3Btn').disabled = false;
+  }
+
+  // ── STEP 4 ─────────────────────────────────────────────
+  function selectIntent(i) {
+    state.intent = i;
+    document.querySelectorAll('#intentOptions .option-card').forEach(el => el.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    checkStep4();
+  }
+
+  function buildCategoryGrid() {
+    const grid = document.getElementById('categoryGrid');
+    const cats = CATEGORIES[state.country] || CATEGORIES.UK;
+    grid.innerHTML = cats.map(c => `
+      <div class="cat-card" onclick="toggleCategory('${c.id}', this)">
+        <span class="cat-emoji">${c.emoji}</span>
+        <div class="cat-name">${c.name}</div>
+        <span class="cat-check">✓</span>
+      </div>
+    `).join('');
+  }
+
+  function toggleCategory(id, el) {
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) {
+      state.categories.push(id);
+    } else {
+      state.categories = state.categories.filter(c => c !== id);
+    }
+    checkStep4();
+  }
+
+  function checkStep4() {
+    document.getElementById('step4Btn').disabled = !(state.intent && state.categories.length > 0);
+  }
+
+  // ── STEP 5 ─────────────────────────────────────────────
+  const intentLabels = {
+    TO_GROW: 'Grow my business 📈',
+    TO_EARN: 'Earn extra money 💰',
+    TO_EXPLORE: 'Just exploring 👀',
+  };
+
+  const flagMap = { UK: '🇬🇧', FR: '🇫🇷', DE: '🇩🇪', US: '🇺🇸' };
+
+  function buildProfileSummary() {
+    const el = document.getElementById('profileSummary');
+    const rows = [
+      ['Onboarding', state.onboarded === 'yes' ? 'Completed ✓' : 'Not completed'],
+      ['Market', `${flagMap[state.country]} ${state.country}`],
+      ['Platform', state.platform],
+      ['Goal', intentLabels[state.intent]],
+      ['Categories', state.categories.join(', ') || 'none'],
+      ['Email track', state.onboarded === 'no' ? 'Track B → Data capture' : 'Track A → Personalised'],
+    ];
+
+    el.innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        ${rows.map(([k, v]) => `
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:8px 0;color:#999;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;width:130px;">${k}</td>
+            <td style="padding:8px 0;color:#000;font-weight:500;">${v}</td>
+          </tr>
+        `).join('')}
+      </table>
+    `;
+
+    // Experiment badge
+    document.getElementById('experimentLabel').textContent =
+      `${state.experiment === 'holdout' ? '🔬 Holdout — No email sent' : `⚗ Treatment — Variant ${state.abVariant}`}`;
+  }
+
+
+
+  // ── GENERATE + SEND ────────────────────────────────────
+  async function generateAndSend() {
+    const recipient = document.getElementById('recipientEmail').value.trim() ||
+                      (document.getElementById('userEmail') ? document.getElementById('userEmail').value.trim() : '');
+    if (!recipient) {
+      showStatus('error', 'No email address found — please restart');
+      return;
+    }
+
+
+    // If holdout — log but don't send
+    if (state.experiment === 'holdout') {
+      await logEvent(recipient, false, '', '');
+      showStatus('success', '🔬 Holdout group — no email sent. Event logged to Supabase.');
+      return;
+    }
+
+    // Show loading
+    document.getElementById('loadingState').style.display = 'flex';
+    document.getElementById('emailPreviewBox').style.display = 'none';
+    document.getElementById('statusMsg').className = 'status-msg';
+
+    const loadingMsgs = [
+      'Claude is writing your email...',
+      'Personalising for your market...',
+      'Adding the right tone...',
+      'Almost ready...'
+    ];
+    let li = 0;
+    const lt = setInterval(() => {
+      li = (li + 1) % loadingMsgs.length;
+      document.getElementById('loadingText').textContent = loadingMsgs[li];
+    }, 1500);
+
+    try {
+      const prompt = buildPrompt();
+      const resp = await fetch(WORKER_URL + '?target=claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 800,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error?.message || 'Claude API error');
+
+      const text = data.content[0].text;
+      const subjectMatch = text.match(/Subject:\s*(.+)/i);
+      const subject = subjectMatch ? subjectMatch[1].trim() : 'New arrivals from Fleek — just for you';
+      const body = text.replace(/Subject:\s*.+\n?/i, '').trim();
+
+      clearInterval(lt);
+      document.getElementById('loadingState').style.display = 'none';
+
+      // Show preview
+      document.getElementById('previewSubject').textContent = subject;
+      document.getElementById('previewBody').textContent = body;
+      document.getElementById('emailPreviewBox').style.display = 'block';
+
+      // Send email
+      const htmlBody = buildEmailHTML(subject, body);
+      const sendResp = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Fleek <onboarding@datafashionbrief.com>',
+          to: [recipient],
+          subject,
+          text: body,
+          html: htmlBody
+        })
+      });
+
+      const sendData = await sendResp.json();
+      if (!sendResp.ok) throw new Error(sendData.message || 'Send failed');
+
+      await logEvent(recipient, true, subject, body);
+      showStatus('success', `✦ Email sent to ${recipient} — check inbox now`);
+
+    } catch (err) {
+      clearInterval(lt);
+      document.getElementById('loadingState').style.display = 'none';
+      showStatus('error', '✕ ' + err.message);
+    }
+  }
+
+  // ── PROMPT BUILDER ─────────────────────────────────────
+  function buildPrompt() {
+    const langMap = { UK: 'English', FR: 'French', DE: 'German', US: 'English (American, casual slang)' };
+    const platformTone = {
+      Vinted: 'volume-focused, margin-conscious, practical fellow reseller',
+      Depop: 'trend-led, curation-focused, cool community energy',
+      eBay: 'commercial, scale-focused, ROI-driven',
+      Website: 'professional, wholesale scale, B2B'
+    };
+    const intentAngle = {
+      TO_GROW: 'scaling their reselling business and growing revenue — speak to serious commercial ambition',
+      TO_EARN: 'making extra income on the side — speak to low risk, easy wins, flexible earnings',
+      TO_EXPLORE: 'just discovering what wholesale reselling could do for them — speak to curiosity and low commitment'
+    };
+    const marketHooks = {
+      UK: 'Mention FleekSort (AI-graded stock, quality guaranteed). Reference UK Vinted seller success — social proof. Note Fleek buyer protection.',
+      FR: 'Write entirely in French. Reference French Vinted market. Mention fast delivery to France. Quality and authenticity are key concerns.',
+      DE: 'Write entirely in German. Reference German Vinted market. Emphasise quality, value and premium stock options. German buyers respond to reliability.',
+      US: 'Address shipping upfront — mention competitive/covered shipping on first order. Use American casual tone. Reference Depop community and vintage market.'
+    };
+    const discountLine = state.onboarded === 'no'
+      ? '\nInclude: offer 10% off first order when they complete their profile (code: WELCOME10).'
+      : state.country === 'US'
+      ? '\nInclude: mention shipping is competitive/covered on first order.'
+      : '';
+
+    const track = state.onboarded === 'no' ? 'Track B' : 'Track A';
+    const catNames = state.categories.join(', ');
+
+    if (state.onboarded === 'no') {
+      return `You are writing a welcome email for Fleek — a B2B wholesale secondhand fashion marketplace for resellers who sell on Vinted, Depop, eBay etc.
+
+This user has NOT completed their onboarding profile. We know very little about them.
+
+Market: ${state.country}
+Language: ${langMap[state.country]}
+${discountLine}
+
+Write ONLY in ${langMap[state.country]}.
+
+Fleek's voice: Direct, punchy, energetic. Mix of uppercase for emphasis and casual warmth. Like a fellow reseller who knows what they're doing. NOT corporate.
+
+Examples of Fleek's tone:
+- "Your profit journey starts here."
+- "Ready to flip?"
+- "ACT NOW OR CRY LATER."
+- "Real talk: stock moves fast."
+
+Goal: Get them to complete their profile so we can personalise their experience. Offer 10% off as incentive.
+
+Write:
+- Subject line (prefix with "Subject: ")
+- Short punchy email body (max 100 words)
+- Clear CTA to complete profile
+- Sign off: "The Fleek Team"`;
+    }
+
+    return `You are writing a personalised activation email for Fleek — a B2B wholesale secondhand fashion marketplace.
+
+User profile:
+- Country: ${state.country}
+- Platform: ${state.platform} (tone: ${platformTone[state.platform]})
+- Goal: ${intentAngle[state.intent]}
+- Interested in: ${catNames}
+
+Language: ${langMap[state.country]}
+Write ONLY in ${langMap[state.country]}.
+
+Market hook: ${marketHooks[state.country]}
+${discountLine}
+
+Fleek's voice: Direct, punchy, energetic. Mix of uppercase for emphasis and casual warmth. Like a fellow reseller who gets it. NOT corporate.
+
+Examples of Fleek's tone:
+- "Your profit journey starts here."
+- "ACT NOW OR CRY LATER."
+- "Ready to flip? Stock's moving."
+- "700+ verified suppliers. All-in pricing. No surprises."
+
+Write:
+- Subject line (prefix with "Subject: ")
+- Personalised email body (max 120 words)
+- Reference their platform (${state.platform}) and categories (${catNames}) naturally
+- Clear CTA: "Shop Now" or equivalent in their language
+- Sign off: "The Fleek Team"
+
+Do NOT offer a discount unless specified. Convert on relevance and energy, not price.`;
+  }
+
+  // ── EMAIL HTML TEMPLATE ────────────────────────────────
+  function buildEmailHTML(subject, body) {
+    return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0;padding:0;background:#f9f9f9;font-family:Montserrat,'Trebuchet MS',sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr><td align="center" style="padding:20px 0;">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;max-width:600px;">
+
+<!-- LOGO -->
+<tr><td style="padding:20px 30px 10px;">
+<span style="font-size:20px;font-weight:900;letter-spacing:-1px;text-transform:uppercase;">✦ FLEEK</span>
+</td></tr>
+
+<!-- YELLOW BANNER -->
+<tr><td style="background:#f8c642;padding:12px 30px;">
+<span style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;color:#000;">${state.onboarded === 'no' ? '⚡ Complete your profile — get 10% off your first order' : '⚡ New arrivals in your categories — stock moves fast'}</span>
+</td></tr>
+
+<!-- BODY -->
+<tr><td style="padding:30px 30px 10px;">
+<p style="font-size:14px;color:#000;line-height:1.7;white-space:pre-wrap;margin:0;">${body}</p>
+</td></tr>
+
+<!-- CTA -->
+<tr><td style="padding:20px 30px;">
+<a href="https://joinfleek.com" style="display:inline-block;background:#000;color:#fff;padding:14px 28px;font-family:Montserrat,sans-serif;font-size:14px;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:0.08em;">Shop Now →</a>
+</td></tr>
+
+<!-- TRUST SIGNALS -->
+<tr><td style="padding:20px 30px;border-top:1px solid #f0f0f0;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td style="text-align:center;padding:8px;">
+<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#000;">✓ Buyer Protection</div>
+</td>
+<td style="text-align:center;padding:8px;">
+<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#000;">✓ All-in pricing</div>
+</td>
+<td style="text-align:center;padding:8px;">
+<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#000;">✓ 700+ reviews</div>
+</td>
+</tr>
+</table>
+</td></tr>
+
+<!-- FOOTER -->
+<tr><td style="padding:16px 30px;border-top:1px solid #f0f0f0;">
+<p style="font-size:11px;color:#999;margin:0;text-align:center;">Stock up, sustainably · <a href="#" style="color:#999;">Unsubscribe</a></p>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+
+
+
+</body>
+</html>`;
+  }
+
+  // ── SUPABASE LOGGING ───────────────────────────────────
+  async function logEvent(recipient, emailSent, subject, body) {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/email_events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          user_email: recipient,
+          user_name: document.getElementById('userName') ? document.getElementById('userName').value : '',
+          country: state.country,
+          platform: state.platform,
+          intent: state.intent,
+          category: state.categories.join(', '),
+          journey: state.onboarded === 'no' ? 'unknown' : 'known',
+          stage: 1,
+          experiment: state.experiment,
+          ab_variant: state.abVariant,
+          holdout: state.experiment === 'holdout',
+          email_sent: emailSent,
+          subject,
+          language: { UK: 'English', FR: 'French', DE: 'German', US: 'English' }[state.country]
+        })
+      });
+    } catch(e) {
+      console.error('Supabase log failed:', e);
+    }
+  }
+
+  // ── HELPERS ────────────────────────────────────────────
+  function showStatus(type, msg) {
+    const el = document.getElementById('statusMsg');
+    el.className = 'status-msg ' + type;
+    el.textContent = msg;
+  }
+</script>
+
+
+
+</body>
+</html>
